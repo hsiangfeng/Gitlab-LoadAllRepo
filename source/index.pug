@@ -1,0 +1,50 @@
+extend layout/header.pug
+block content
+  img(src="./img/bg1.jpg" style="opacity:1")#bg1-img
+  img(src="./img/bg2.jpg" style="opacity:0")#bg2-img
+  #app.container.py-5
+      .bg.p-4.rounded
+        template {{getrepo}}
+        h1.text-center.text-white 
+          img(src="./img/logo.png" style="width:50px")
+          br
+          | Get GitLab All Repo
+        ul.list-group
+          li.list-group-item.list-group-item-info
+            | 若不知道自己GitHub名稱，就
+            a(href='img/pzAslBq.png', target='_black') 請按我
+          li.list-group-item ※無需按下Enter，輸入完畢即可立即顯示。(建議複製貼上使用者名稱)
+          li.list-group-item ※點擊欄位標題可排序
+          li.list-group-item.list-group-item-warning ※GitHub有限制查詢次數約60次，請不要過度使用，否則會被封鎖IP位址30~60分鐘不等。
+        .form-group.text-center.d-flex.justify-content-center.align-items-center.flex-column
+          label(for="repoUserName").text-white.text-center.font-weight-bold.h3 輸入使用者名稱
+          br
+          input(type="text" v-model.lazy="userName" id="repoUserName").form-control.w-50
+        .card-columns.py-2
+          card-repo-theme(v-for="item in data" :prop="item" :urlitem="authorUrl" :key="item.id")
+          //- .table-responsive
+          //-   table.table.table-hover.table-bordered.table-striped.text-center
+          //-     thead.thead-light.sticky-top
+          //-       tr
+          //-         th(width='5%') Index
+          //-         th(width='40%') Repo Name
+          //-         th(width='20%') Set Date
+          //-         th(width='20%') Last Updata
+          //-         th(width='15%') Link
+          //-     tbody.text-white
+          //-       tr(v-for="item,index in data" :key="index")
+          //-         td {{ index + 1 }}
+          //-         td {{ item.name_with_namespace}}
+          //-         td {{ item.created_at }}
+          //-         td {{ item.last_activity_at }}
+          //-         td
+          //-           a(:href="item.web_url") 快速連結
+
+
+
+
+
+
+
+
+  include layout/footer.pug
