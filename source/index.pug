@@ -20,7 +20,7 @@ block content
       .d-flex.justify-content-center.align-items-center
         button.btn.btn-outline-warning.mx-2(@click="page = '6'") 查詢 6 筆
         button.btn.btn-outline-warning.mx-2(@click="page = '12'") 查詢 12 筆
-        button.btn.btn-outline-warning.mx-2(@click="page = 'all'") 查詢全部
+        button.btn.btn-outline-warning.mx-2(@click="page = '21'") 查詢 21 筆
       .card-columns.py-2
         card-repo-theme(v-for="item in data" :prop="item" :urlitem="authorUrl" :key="item.id")
       .text-center.text-white
