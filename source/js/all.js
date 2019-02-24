@@ -12,15 +12,22 @@ const app = new Vue({
     api: 'projects',
     page: '6',
     authorUrl: 'https://gitlab.com/',
+    googleCORS: 'https://script.google.com/macros/s/AKfycbxybXJPnk9oV-VOf5vMAkPKoOmYn-OZ9OXeWO3khPyluXQo6ps/exec?url=',
     data: [],
     urlAll: ''
   },
-  computed: {
-    getrepo () {
-      let googleCORS = 'https://script.google.com/macros/s/AKfycbxybXJPnk9oV-VOf5vMAkPKoOmYn-OZ9OXeWO3khPyluXQo6ps/exec?url='
+  methods: {
+    initRepo () {
+      let localUserName = JSON.parse(window.localStorage.getItem('gitLabName')) || []
+      if (localUserName !== []) {
+        this.userName = localUserName
+      }
+      this.ajaxRepo()
+    },
+    ajaxRepo () {
       let str = `${this.gitlabUrl}/${this.userName}/${this.api}?per_page=${this.page}`
       this.urlAll = str
-      window.fetch(googleCORS + str, { method: 'get' })
+      window.fetch(this.googleCORS + str, { method: 'get' })
         .then(response => {
           return response.json()
         })
@@ -30,7 +37,15 @@ const app = new Vue({
         .catch(error => {
           window.alert('目前出現錯誤：' + error)
         })
-      console.log(googleCORS + str)
+      console.log(this.googleCORS + str)
+    },
+    addRepo () {
+      const vm = this
+      window.localStorage.setItem('gitLabName', JSON.stringify(vm.userName))
+      window.alert(`已將目前 ${vm.userName} 對象加入關注。`)
     }
+  },
+  created () {
+    this.initRepo()
   }
 })

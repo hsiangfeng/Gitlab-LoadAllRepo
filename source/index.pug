@@ -2,7 +2,6 @@ extend layout/header.pug
 block content
   #app.container.py-5
     .bg-box.p-4.rounded
-      template {{getrepo}}
       h1.text-center.text-white 
         img(src="./img/logo.png" style="width:50px")
         br
@@ -11,16 +10,20 @@ block content
         li.list-group-item.list-group-item-info
           | 若不知道自己GitLab名稱，就
           a(href='img/pzAslBq.png', target='_black') 請按我
-        li.list-group-item ※無需按下Enter，輸入完畢即可立即顯示。(建議複製貼上使用者名稱)
+        li.list-group-item ※輸入完畢，按下enter即查詢。(建議複製貼上使用者名稱)
         li.list-group-item.list-group-item-warning ※GitLab【可能】有限制查詢次數，請不要過度使用，否則【可能會被短暫封鎖IP】。
       .form-group.text-center.d-flex.justify-content-center.align-items-center.flex-column
         label(for="repoUserName").text-white.text-center.font-weight-bold.h3 輸入使用者名稱
-        br
-        input(type="text" v-model.lazy="userName" id="repoUserName").form-control.w-50
+        .form-inline
+          .form-group
+            input#repoUserName.form-control(type='text', v-model="userName" @keyup.enter="ajaxRepo", placeholder='Github UserName')
+          button.btn.btn-outline-warning.mx-2(type='button', @click='ajaxRepo') 查詢
+          button.btn.btn-outline-warning(type='button', @click='addRepo') 關注
+        .text-center.text-white.mt-2 目前查詢名稱：{{ userName }}
       .d-flex.justify-content-center.align-items-center
-        button.btn.btn-outline-warning.mx-2(@click="page = '6'") 查詢 6 筆
-        button.btn.btn-outline-warning.mx-2(@click="page = '12'") 查詢 12 筆
-        button.btn.btn-outline-warning.mx-2(@click="page = '21'") 查詢 21 筆
+        button.btn.btn-outline-warning.mx-2(@click="page = '6',ajaxRepo()") 查詢 6 筆
+        button.btn.btn-outline-warning.mx-2(@click="page = '12',ajaxRepo()") 查詢 12 筆
+        button.btn.btn-outline-warning.mx-2(@click="page = '21',ajaxRepo()") 查詢 21 筆
       .card-columns.py-2
         card-repo-theme(v-for="item in data" :prop="item" :urlitem="authorUrl" :key="item.id")
       .text-center.text-white
